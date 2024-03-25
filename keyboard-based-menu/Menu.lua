@@ -1,5 +1,5 @@
 ---@class Menu
----@overload fun(manager: object, name: string, items: table): Menu
+---@overload fun(menuManager: object, name: string, items: table): Menu
 Menu = class("Menu").extends() or Menu
 
 local gfx <const> = playdate.graphics
@@ -13,13 +13,13 @@ local charByteStart <const> = 65 -- "A"
     Initializes a menu.
 
     Parameters:
-        manager (object): The menu manager object.
+        menuManager (object): The menu manager object.
         name (string): The name of the menu. Shown at the top of the menu
         items (table): A table containing the items of the menu.
         subMenuCount (number): The sub menu number. Should not be set, used internally by the menu itself when creating pages.
 ]]
-function Menu:init(manager, name, items, subMenuCount)
-    self.menuManager = manager
+function Menu:init(menuManager, name, items, subMenuCount)
+    self.menuManager = menuManager
     self.name = name
 
     -- If you'd like to change the padding, tweak these numbers
@@ -63,7 +63,7 @@ end
 function Menu:draw()
     gfx.clear(self.menuManager.backgroundColor)
 
-    oldFont = gfx.getFont()
+    local oldFont = gfx.getFont()
     gfx.setFont(self.menuManager.font)
     gfx.setImageDrawMode(gfx.kDrawModeNXOR)
 
@@ -86,6 +86,9 @@ function Menu:draw()
 end
 
 function Menu:populateItems(items)
+    local oldFont = gfx.getFont()
+    gfx.setFont(self.menuManager.font)
+
     local itemNeedsGlyph = {}
     -- check if item already has pre-assigned Glyph
     for index, item in ipairs(items) do
@@ -124,11 +127,11 @@ function Menu:populateItems(items)
             currentByte += 1
         end
     end
+
+    gfx.setFont(oldFont)
 end
 
 function Menu:checkForSubMenu(index, item, items)
-    oldFont = gfx.getFont()
-    gfx.setFont(self.menuManager.font)
     local text = self:getFullItemText(item)
     local textwidth, textHeight = gfx.getTextSizeForMaxWidth(text, self.itemTextDimensions.width)
     if (textHeight > self.itemTextDimensions.height) then
@@ -145,7 +148,6 @@ function Menu:checkForSubMenu(index, item, items)
 
         return true
     end
-    gfx.setFont(oldFont)
 end
 
 function Menu:getFullItemText(extraItem)
@@ -157,6 +159,10 @@ function Menu:getFullItemText(extraItem)
         text = text .. key .. ": " .. item.text .. "\n"
     end
     return text
+end
+
+function Menu:open()
+    self.menuManager:addMenu(self)
 end
 
 function Menu:setActive()
