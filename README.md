@@ -10,7 +10,7 @@ A menu that uses the playdate's keyboard to navigate and select. Created as an a
 Create menu items just like the playdate's menu system. Tie your callbacks and tweak your parameters to close the keyboard, menu/page or all menus when the item is selected.
 
 ### Automatic Nested Pages
-If your menu has too many options and will overflow the space it has, it will automatically create a sub page at the bottom so that you can continue to 
+If your menu has too many options and will overflow the space it has, it will automatically create a sub page at the bottom.
 
 ### Formats to your Font
 Whatever font you give it will automatically adjust its dimensions to fit it properly.
