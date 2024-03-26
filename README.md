@@ -23,7 +23,7 @@ Added type definitions for LuaCATS used by [Lua Language Server](https://github.
 ## Limitations
 - You cannot change the font after the menu is created, you will need to recreate the menu if you wish to change the font.
 
-## Showcase
+## Showcase / Example Project
 
 ![debug-menu](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/01bc380b-6a37-4a0b-8836-54416967aa00)
 ![debug-menu-light](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/990b7e48-c494-4905-9ceb-e5b605736583)
