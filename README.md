@@ -3,8 +3,6 @@
 A menu that uses the playdate's keyboard to navigate and select. Created as an aesthetic homage to traditional roguelikes!
 
 ![setting-menu-loop](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/2ecdcd2c-3eea-4d78-a73c-1eaae619f35c)
-![setting-menu](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/dde48c3a-9478-4531-bd8f-1b073214b353)
-![setting-menu-kb](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/40dcfe6a-157c-439c-bf24-525e59a02095)
 
 ## Features
 
