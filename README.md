@@ -18,7 +18,7 @@ Whatever font you give it will automatically adjust its dimensions to fit it pro
 ![setting-menu-og-font](https://github.com/AavaGames/playdate-keyboard-based-menu-ui/assets/49950668/0995b2b1-4018-446c-a13a-d75251c4f10a)
 
 ### LuaCATS Syntax
-Added type definitions for LuaCATS used by [Lua Language Server](https://github.com/LuaLS/lua-language-server) for the [sumneko.lua VSCode extension](https://marketplace.visualstudio.com/items?itemName=sumneko.lua).
+Added type and constructor definitions for LuaCATS used by [Lua Language Server](https://github.com/LuaLS/lua-language-server) for the [sumneko.lua VSCode extension](https://marketplace.visualstudio.com/items?itemName=sumneko.lua). Highly recommend using with [Playdate-LuaCATS by notpeter](https://github.com/notpeter/playdate-luacats/).
 
 ## Limitations
 - You cannot change the font after the menu is created, you will need to recreate the menu if you wish to change the font.
@@ -44,4 +44,19 @@ Look through main.lua [here](https://github.com/AavaGames/playdate-keyboard-base
 1. Create a MenuManager singleton
 	1. Pass in your callback for what to do when a menu opens from gameplay and when all menus close. Example: Change GameManager state to menu so gameplay update stops running.
 2. Create a Menu: pass it the menu manager, a name and its items.
-3. `menu:Open()`
+3. `menu:open()`
+
+### Menu Item
+```lua
+--[[
+    Initializes a menu item.
+
+    Parameters:
+        text (string): The text of the menu item.
+        assignedGlyph (string): The preferred assigned glyph for the menu item. Nil assigns the next in the keyboard sequence. First come, first serve. To skip use nil or empty string ""
+        closeKeyboardOnSelect (boolean): Whether to close the keyboard on selection.
+        closeMenuOnSelect (boolean): Whether to close the menu on selection.
+        allMenus (boolean): Whether to close all menus on selection. Requires closeMenuOnSelect.
+        selectionFunction (function): The function to execute when the menu item is selected.
+]]
+```
