@@ -1,5 +1,5 @@
 ---@class MenuItem
----@overload fun(text: string, assignedGlyph: string, closeKeyboardOnSelect: boolean, closeMenuOnSelect: boolean, allMenus: boolean, selectionFunction: function): MenuItem
+---@overload fun(text: string, assignedGlyph, closeKeyboardOnSelect: boolean, closeMenuOnSelect: boolean, allMenus: boolean, selectionFunction: function): MenuItem
 MenuItem = class("MenuItem").extends() or MenuItem
 
 local ExecutionBehaviors <const> = pdbase.enum.new({"Nothing", "CloseMenuOnSelect", "CloseAllMenus"})

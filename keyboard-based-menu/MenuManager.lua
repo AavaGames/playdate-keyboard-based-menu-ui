@@ -1,11 +1,11 @@
 ---@class MenuManager
----@overload fun(font, onOpenFirstMenuCallback: function, onCloseAllMenusCallback:function): MenuManager
+---@overload fun(onOpenFirstMenuCallback: function, onCloseAllMenusCallback:function): MenuManager
 MenuManager = class("MenuManager").extends() or MenuManager
 
 local gfx <const> = playdate.graphics
 
 -- Can pass reference to a game manager here to disable input to other logic 
-function MenuManager:init(font, onOpenFirstMenuCallback, onCloseAllMenusCallback)
+function MenuManager:init(onOpenFirstMenuCallback, onCloseAllMenusCallback)
     self.menus = {}
     self.currentMenu = nil
     self.showMenu = false
@@ -15,7 +15,6 @@ function MenuManager:init(font, onOpenFirstMenuCallback, onCloseAllMenusCallback
     self.screenHeight = 240
 
     self.backgroundColor = gfx.kColorBlack
-    self.font = font == nil and gfx.getFont() or font
 
     -- Can add callback to change Game State to disable play inputs
     self.OnOpenFirstMenu = onOpenFirstMenuCallback
@@ -79,11 +78,6 @@ function MenuManager:removeAllMenu()
     for i = 1, #self.menus, 1 do
         self:removeMenu()
     end
-end
-
-
-function MenuManager:setFont(font)
-    self.font = font
 end
 
 function MenuManager:setBackgroundColor(color)

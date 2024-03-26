@@ -1,13 +1,10 @@
 ---@class Menu
----@overload fun(menuManager: object, name: string, items: table): Menu
+---@overload fun(menuManager, name: string, font, items: table): Menu
 Menu = class("Menu").extends() or Menu
 
 local gfx <const> = playdate.graphics
 
 local charByteStart <const> = 65 -- "A"
--- can add an alternate char set for the left side of the keyboard
-
--- subMenuCount is used by menu itself when creating, do not provide a number
 
 --[[
     Initializes a menu.
@@ -18,17 +15,13 @@ local charByteStart <const> = 65 -- "A"
         items (table): A table containing the items of the menu.
         subMenuCount (number): The sub menu number. Should not be set, used internally by the menu itself when creating pages.
 ]]
-function Menu:init(menuManager, name, items, subMenuCount)
+function Menu:init(menuManager, name, font, items, subMenuCount)
     self.menuManager = menuManager
     self.name = name
+    self.font = font == nil and gfx.getFont() or font
 
     -- If you'd like to change the padding, tweak these numbers
-    self.itemTextDimensions = {
-        x = 4,
-        y = 18,
-        width = self.menuManager.screenWidth - 10,
-        height = self.menuManager.screenHeight - self.menuManager.font:getHeight() * 2,
-    }
+    self:SetPadding(4, 4)
 
     self.items = {}
     self.subMenu = nil
@@ -39,6 +32,15 @@ function Menu:init(menuManager, name, items, subMenuCount)
     self.kbInput = nil
 
     self:populateItems(items)
+end
+
+function Menu:SetPadding(horizontalPadding, verticalPadding)
+    self.itemTextDimensions = {
+        x = horizontalPadding,
+        y = self.font:getHeight() + verticalPadding,
+        width = self.menuManager.screenWidth - (horizontalPadding * 2),
+        height = self.menuManager.screenHeight - self.font:getHeight() * 2,
+    }
 end
 
 function Menu:update()
@@ -64,7 +66,7 @@ function Menu:draw()
     gfx.clear(self.menuManager.backgroundColor)
 
     local oldFont = gfx.getFont()
-    gfx.setFont(self.menuManager.font)
+    gfx.setFont(self.font)
     gfx.setImageDrawMode(gfx.kDrawModeNXOR)
 
     -- Name Text
@@ -76,7 +78,7 @@ function Menu:draw()
     -- Input Text
     local inputText = "Open KB - A\nClose " .. (self.subMenuCount > 1 and "Page" or "Menu") .. " - B"
     gfx.drawTextAligned(inputText, self.menuManager.screenWidth,
-        self.menuManager.screenHeight - self.menuManager.font:getHeight() * 2, kTextAlignment.right)
+        self.menuManager.screenHeight - self.font:getHeight() * 2, kTextAlignment.right)
 
     -- Menu Items Text
     gfx.drawTextInRect(self:getFullItemText(), self.itemTextDimensions.x, self.itemTextDimensions.y,
@@ -87,7 +89,7 @@ end
 
 function Menu:populateItems(items)
     local oldFont = gfx.getFont()
-    gfx.setFont(self.menuManager.font)
+    gfx.setFont(self.font)
 
     local itemNeedsGlyph = {}
     -- check if item already has pre-assigned Glyph
@@ -139,7 +141,7 @@ function Menu:checkForSubMenu(index, item, items)
         for i = index, #items, 1 do
             table.insert(subItems, items[i])
         end
-        self.subMenu = Menu(self.menuManager, self.name, subItems, self.subMenuCount + 1)
+        self.subMenu = Menu(self.menuManager, self.name, self.font, subItems, self.subMenuCount + 1)
 
         local glyph = "a"
         self.items[glyph] = MenuItem("...", glyph, true, false, false, function ()
